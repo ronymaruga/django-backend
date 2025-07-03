@@ -18,6 +18,7 @@ load_dotenv()
 
 SUPABASE_URL = os.getenv("SUPABASE_URL")
 SUPABASE_KEY = os.getenv("SUPABASE_KEY")
+DJANGO_SECRET_KEY = os.getenv("DJANGO_SECRET_KEY")
 
 
 
