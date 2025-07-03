@@ -27,7 +27,7 @@ ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', 'localhost,127.0.0.1').split(','
 
 # Supabase PostgreSQL configuration
 DATABASES = {
-    'default': dj_database_url.parse(os.environ.get('DATABASE_URL', 'sqlite:///' + os.path.join(BASE_DIR, 'db.sqlite3')))
+    'default': dj_database_url.parse(os.environ.get('DATABASE_URL', 'postgres://user:password@localhost:5432/dbname'))
 }
 
 # Static files configuration (for Tailwind CSS)
