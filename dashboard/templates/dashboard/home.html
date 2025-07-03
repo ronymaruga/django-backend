@@ -3,9 +3,117 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>UsalamaGuard with django</title>
+    <title>Smart Security Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
-<body>
-    <h1>Hello rony, welcome to your first page</h1>
+<body class="bg-gray-900 text-gray-100 min-h-screen flex">
+    <!-- Sidebar -->
+    <aside class="bg-gray-800 w-64 min-h-screen p-4">
+        <h1 class="text-2xl font-bold text-green-400 mb-6">Smart Security</h1>
+        <nav class="space-y-2">
+            <a href="{% url 'home' %}" class="block px-4 py-2 {% if request.resolver_match.url_name == 'home' %}bg-green-600 text-white{% else %}hover:bg-gray-700{% endif %} rounded-md transition">Dashboard</a>
+            <a href="{% url 'devices' %}" class="block px-4 py-2 {% if request.resolver_match.url_name == 'devices' %}bg-green-600 text-white{% else %}hover:bg-gray-700{% endif %} rounded-md transition">Devices</a>
+            <a href="{% url 'alerts' %}" class="block px-4 py-2 {% if request.resolver_match.url_name == 'alerts' %}bg-green-600 text-white{% else %}hover:bg-gray-700{% endif %} rounded-md transition">Alerts</a>
+            <a href="{% url 'reports' %}" class="block px-4 py-2 {% if request.resolver_match.url_name == 'reports' %}bg-green-600 text-white{% else %}hover:bg-gray-700{% endif %} rounded-md transition">Reports</a>
+            <a href="{% url 'logout' %}" class="block px-4 py-2 hover:bg-gray-700 rounded-md transition">Logout</a>
+        </nav>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="flex-1 p-6">
+        <h2 class="text-3xl font-bold mb-6">Security Dashboard</h2>
+
+        {% if messages %}
+            <div class="bg-red-600 text-white p-4 rounded-md mb-6">
+                {% for message in messages %}
+                    <p>{{ message }}</p>
+                {% endfor %}
+            </div>
+        {% endif %}
+
+        <!-- Overview Cards -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+            <div class="bg-gray-800 p-4 rounded-lg shadow-md">
+                <h3 class="text-lg font-semibold text-green-400">Active Devices</h3>
+                <p class="text-2xl font-bold">12</p>
+                <p class="text-sm text-gray-400">2 offline</p>
+            </div>
+            <div class="bg-gray-800 p-4 rounded-lg shadow-md">
+                <h3 class="text-lg font-semibold text-green-400">Alerts Today</h3>
+                <p class="text-2xl font-bold">3</p>
+                <p class="text-sm text-gray-400">1 critical</p>
+            </div>
+            <div class="bg-gray-800 p-4 rounded-lg shadow-md">
+                <h3 class="text-lg font-semibold text-green-400">System Uptime</h3>
+                <p class="text-2xl font-bold">99.8%</p>
+                <p class="text-sm text-gray-400">Last 24 hours</p>
+            </div>
+        </div>
+
+        <!-- Recent Activity and Metrics -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <!-- Recent Activity -->
+            <div class="bg-gray-800 p-4 rounded-lg shadow-md">
+                <h3 class="text-lg font-semibold text-green-400 mb-4">Recent Activity</h3>
+                <ul class="space-y-2">
+                    <li class="flex justify-between text-sm">
+                        <span>Camera 1: Motion detected</span>
+                        <span class="text-gray-400">10:00 AM</span>
+                    </li>
+                    <li class="flex justify-between text-sm">
+                        <span>Sensor 3: Door opened</span>
+                        <span class="text-gray-400">09:45 AM</span>
+                    </li>
+                    <li class="flex justify-between text-sm">
+                        <span>Camera 2: Offline</span>
+                        <span class="text-red-400">09:30 AM</span>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Metrics Chart -->
+            <div class="bg-gray-800 p-4 rounded-lg shadow-md">
+                <h3 class="text-lg font-semibold text-green-400 mb-4">Alert Trends</h3>
+                <canvas id="alertChart" class="w-full h-64"></canvas>
+            </div>
+        </div>
+    </main>
+
+    <!-- Chart.js Script for Alert Trends -->
+    <script>
+        const ctx = document.getElementById('alertChart').getContext('2d');
+        new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: ['00:00', '04:00', '08:00', '12:00', '16:00', '20:00'],
+                datasets: [{
+                    label: 'Alerts',
+                    data: [2, 5, 3, 7, 4, 3],
+                    borderColor: '#34D399',
+                    backgroundColor: 'rgba(52, 211, 153, 0.2)',
+                    fill: true,
+                    tension: 0.4
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: { color: '#D1D5DB' },
+                        grid: { color: '#4B5563' }
+                    },
+                    x: {
+                        ticks: { color: '#D1D5DB' },
+                        grid: { display: false }
+                    }
+                },
+                plugins: {
+                    legend: { labels: { color: '#D1D5DB' } }
+                }
+            }
+        });
+    </script>
 </body>
 </html>

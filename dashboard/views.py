@@ -67,3 +67,21 @@ def signup_view(request):
         else:
             messages.error(request, 'Error creating account. Please try again.')
     return render(request, 'dashboard/signup.html')
+
+
+@supabase_login_required
+def devices(request):
+    return render(request, 'dashboard/devices.html')
+
+@supabase_login_required
+def alerts(request):
+    return render(request, 'dashboard/alerts.html')
+
+@supabase_login_required
+def reports(request):
+    return render(request, 'dashboard/reports.html')
+
+def logout_view(request):
+    # Clear session and redirect to login
+    request.session.flush()
+    return redirect('login')
