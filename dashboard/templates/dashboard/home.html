@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,7 +8,10 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
-<body class="bg-gray-900 text-gray-100 min-h-screen flex">
+
+
+
+<body class="bg-gray-900 text-gray-100 min-h-screen flex flex-col">
     <!-- Sidebar -->
     <aside class="bg-gray-800 w-64 min-h-screen p-4">
         <h1 class="text-2xl font-bold text-green-400 mb-6">Smart Security</h1>
@@ -21,7 +25,7 @@
     </aside>
 
     <!-- Main Content -->
-    <main class="flex-1 p-6">
+    <main class="flex-grow p-6">
         <h2 class="text-3xl font-bold mb-6">Security Dashboard</h2>
 
         {% if messages %}
@@ -115,5 +119,6 @@
             }
         });
     </script>
+    {% include 'includes/footer.html' %}
 </body>
 </html>
