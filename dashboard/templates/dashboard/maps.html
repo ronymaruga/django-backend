@@ -1,7 +1,112 @@
-{% extends 'base.html' %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JKUAT Security Camera Map</title>
+  <style>
+    /* Set map height and ensure it fills the container */
+    #map {
+      height: 600px;
+      width: 100%;
+    }
+    html, body {
+      height: 100%;
+      margin: 0;
+      padding: 0;
+    }
+    /* Style for the info window content */
+    .info-window {
+      font-family: Arial, sans-serif;
+      max-width: 200px;
+    }
+    .info-window h3 {
+      margin: 0 0 10px;
+    }
+    .info-window p {
+      margin: 5px 0;
+    }
+    .info-window a {
+      color: #1a73e8;
+      text-decoration: none;
+    }
+    .info-window a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <div id="map"></div>
+  <script>
+    // Initialize the map
+    function initMap() {
+      // Coordinates for JKUAT main campus (approximate)
+      const jkuatLocation = {
+        lat: -1.099677,  lng: 37.014629};
 
-{% block title %} Home {% endblock %}
+      // Create the map, centered at JKUAT
+      const map = new google.maps.Map(document.getElementById("map"), {
+        zoom: 16, // Zoom level to show campus details
+        center: jkuatLocation,
+        mapTypeId: "satellite", // Use satellite view for better campus visualization
+      });
 
-{% block content %}
-<h1 class="text-3xl font-bold mb-6">Maps</h1>
-{% endblock %}
+      // Simulated real-time data for the camera
+      let cameraData = {
+        id: "CAM001",
+        status: "Online",
+        lastUpdated: new Date().toLocaleString(),
+        streamUrl: "#", // Replace with your actual stream URL
+      };
+
+      // Create an info window
+      const infoWindow = new google.maps.InfoWindow();
+
+      // Create a marker for the security camera
+      const marker = new google.maps.Marker({
+        position: jkuatLocation,
+        map: map,
+        title: "Jkuat University",
+        icon: {
+          url: "http://maps.google.com/mapfiles/ms/icons/red-dot.png", // Custom icon (red dot)
+        },
+      });
+
+      // Function to update info window content
+      function updateInfoWindow() {
+        // Simulate fetching real-time data (replace with actual API call)
+        cameraData.lastUpdated = new Date().toLocaleString();
+        cameraData.status = Math.random() > 0.2 ? "Online" : "Offline"; // Random status for demo
+
+        // Info window content
+        const content = `
+          <div class="info-window">
+            <h3>Security Camera: ${cameraData.id}</h3>
+            <p><strong>Status:</strong> ${cameraData.status}</p>
+            <p><strong>Last Updated:</strong> ${cameraData.lastUpdated}</p>
+            <p><a href="${cameraData.streamUrl}" target="_blank">View Live Feed</a></p>
+          </div>
+        `;
+
+        infoWindow.setContent(content);
+      }
+
+      // Update info window initially
+      updateInfoWindow();
+
+      // Add click listener to marker to open info window
+      marker.addListener("click", () => {
+        infoWindow.open(map, marker);
+      });
+
+      // Simulate real-time data updates every 10 seconds
+      setInterval(updateInfoWindow, 10000);
+    }
+  </script>
+  <!-- Load Google Maps API with template variable for API key -->
+  <script
+    src="https://maps.googleapis.com/maps/api/js?key={{ google_maps_api_key }}&callback=initMap"
+    async defer>
+  </script>
+</body>
+</html>

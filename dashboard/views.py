@@ -7,6 +7,7 @@ from supabase import create_client
 from .supabase_client import supabase  # Ensure this import matches your supabase client setup
 from functools import wraps
 from django.shortcuts import redirect
+from django.conf import settings
 
 def supabase_login_required(view_func):
     """
@@ -85,3 +86,13 @@ def logout_view(request):
     # Clear session and redirect to login
     request.session.flush()
     return redirect('login')
+
+
+def map_view(request):
+    """
+    Render the map view with the Google Maps API key.
+    """
+    context = {
+        'google_maps_api_key': settings.GOOGLE_MAPS_API_KEY
+    }
+    return render(request, 'dashboard/maps.html', context)

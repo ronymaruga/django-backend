@@ -17,7 +17,7 @@
         <h1 class="text-2xl font-bold text-green-400 mb-6">Smart Security</h1>
         <nav class="space-y-2">
             <a href="{% url 'home' %}" class="block px-4 py-2 {% if request.resolver_match.url_name == 'home' %}bg-green-600 text-white{% else %}hover:bg-gray-700{% endif %} rounded-md transition">Dashboard</a>
-            <a href="{% url 'devices' %}" class="block px-4 py-2 {% if request.resolver_match.url_name == 'devices' %}bg-green-600 text-white{% else %}hover:bg-gray-700{% endif %} rounded-md transition">Devices</a>
+            <a href="{% url 'maps' %}" class="block px-4 py-2 {% if request.resolver_match.url_name == 'maps' %}bg-green-600 text-white{% else %}hover:bg-gray-700{% endif %} rounded-md transition">maps</a>
             <a href="{% url 'alerts' %}" class="block px-4 py-2 {% if request.resolver_match.url_name == 'alerts' %}bg-green-600 text-white{% else %}hover:bg-gray-700{% endif %} rounded-md transition">Alerts</a>
             <a href="{% url 'reports' %}" class="block px-4 py-2 {% if request.resolver_match.url_name == 'reports' %}bg-green-600 text-white{% else %}hover:bg-gray-700{% endif %} rounded-md transition">Reports</a>
             <a href="{% url 'logout' %}" class="block px-4 py-2 hover:bg-gray-700 rounded-md transition">Logout</a>
